@@ -51,19 +51,26 @@
 
       <% if(files.length > 0) { %> 
         <% files.forEach(function(val) { %>
-          <div class="task min-w-72 px-4 py-5 rounded-lg bg-yellow-400 shadow-md">
-            <h3 class="text-black text-xl font-semibold tracking-tight"><%= val %></h3>
+          <div class="task w-full sm:w-72 px-4 py-5 rounded-lg bg-yellow-400 shadow-m">
+            <h3 class="text-blue-900 font-medium inline-block mt-2 sm:mt-3 text-sm hover:underlinet"><%= val %></h3>
             <a class="text-blue-900 font-medium inline-block mt-3 text-sm hover:underline" 
               href="/file/<%= encodeURIComponent(val) %>">Read More...</a>
 
-              <a class="text-red-900 ml-20" href="/edit/<%= val %>">Edit Task Title ✏️</a>
-             
-                <form action="/delete" method="post" onsubmit="return confirmDelete(event, '<%= val %>')">
-                  <input type="hidden" name="filename" value="<%= val %>" />
-                  <button type="submit" class="text-red-900 ml-40 mt-2">
-                    Delete 🗑
-                  </button>
-                </form>
+
+             <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-3 sm:mt-4 gap-2">
+    <!-- Edit Button -->
+    <a class="text-white bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded-md text-sm sm:text-base text-center"
+      href="/edit/<%= val %>">✏️ Edit</a>
+
+    <!-- Delete Button (Inside Form) -->
+    <form action="/delete" method="post" onsubmit="return confirmDelete(event, '<%= val %>')">
+      <input type="hidden" name="filename" value="<%= val %>" />
+      <button type="submit" 
+        class="text-white bg-red-600 hover:bg-red-700 px-3 py-1 rounded-md text-sm sm:text-base">
+        🗑 Delete
+      </button>
+    </form>
+  </div>
            
               
           </div>
@@ -89,6 +96,19 @@ This ensures that if there are tasks (files), they are listed as <h1> elements, 
 
   </div>
 
+  <footer class="w-full bg-zinc-800 text-white text-center py-6 mt-10">
+    <p class="text-gray-400">© 2025 Notes Taking Web App. All Rights Reserved.</p>
+    <p class="text-gray-400">Developed by Viraj Patil | <a href="mailto:vrajpatil4444@gmail.com" class="text-blue-400 hover:underline">vrajpatil4444@gmail.com</a></p>
+    
+    <div class="flex justify-center space-x-4 mt-3">
+      <a href="https://www.linkedin.com/in/viraj-patil-082b4618b/" target="_blank" class="text-blue-500 hover:underline">LinkedIn</a>
+      <a href="https://github.com/Virajpatil08" target="_blank" class="text-gray-300 hover:underline">GitHub</a>
+      <a href="https://instagram.com/mr_viraj_1001_?igshid=1tbvh3yf9yy1o" target="_blank" class="text-pink-400 hover:underline">Instagram</a>
+      <a href="https://www.facebook.com/vraj.patil.1612" target="_blank" class="text-blue-600 hover:underline">Facebook</a>
+      <a href="https://twitter.com/vraj_patil_?s=09" target="_blank" class="text-blue-400 hover:underline">Twitter</a>
+      <a href="https://virajpatil08.github.io/Viraj-Patil-Portfolio-/index.html" target="_blank" class="text-green-400 hover:underline">Portfolio</a>
+    </div>
+  </footer>
 
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

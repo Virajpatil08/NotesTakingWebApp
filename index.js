@@ -40,7 +40,7 @@ app.post("/create", function (req, res) {
       if (err) {
         return res.redirect("/?error=Error Creating File");
       }
-      res.redirect("/?success=File Created Successfully"); // by using this we are again moving from /create to /
+      res.redirect("/?success=Task Created Successfully"); // by using this we are again moving from /create to /
     }
   ); // by using this we are creating the file in the folder and naming it as our title is written and split and join for removing the spaces in the file naming
 });
