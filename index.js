@@ -11,6 +11,11 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, "public")));
 
+const filesDir = "./files";
+if (!fs.existsSync(filesDir)) {
+  fs.mkdirSync(filesDir);
+}
+
 // 1] in this we are going to view index.ejs file and showing the on / router and read dire is for reading the files that we have created
 
 app.get("/", function (req, res) {
