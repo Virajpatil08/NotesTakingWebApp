@@ -1,0 +1,119 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Task Manager</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+<!-- Add this inside <head> of index.ejs -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+  
+</head>
+
+<body class="bg-zinc-900 text-white">
+  <div class="main w-full min-h-screen flex flex-col items-center px-6 py-10">
+    
+    <!-- App Header -->
+    <header class="text-center mb-8">
+      <h1 class="text-4xl font-bold text-blue-400">Notes Taking Web App</h1>
+    </header>
+
+    <section class="mt-10 w-full max-w-2xl">
+      <h2 class="text-2xl font-semibold mb-2 text-blue-400">How It Works</h2>
+      <ul class="list-disc list-inside text-gray-300 space-y-1">
+        <li>Enter a task title and description.</li>
+        <li>Click the "Create Task" button to save it.</li>
+        <li>View your tasks below. Click "Read More" to see details.</li>
+      </ul>
+    </section>
+
+    <!-- Task Creation Form -->
+    <section class="bg-zinc-800 w-full max-w-2xl p-6 rounded-lg shadow-lg mt-10">
+      <h2 class="text-2xl font-semibold mb-4">Create a New Task</h2>
+      <form action="/create" method="post" class="space-y-4">
+        <input class="block w-full rounded-md outline-none px-5 py-2 bg-zinc-700 text-white" 
+          type="text" placeholder="Enter title here..." name="title" required />
+        <textarea class="block w-full rounded-md outline-none px-5 py-2 bg-zinc-700 text-white resize-none"
+          placeholder="Write your task details here..." name="details" required></textarea>
+        <input class="w-full bg-blue-600 hover:bg-blue-700 transition px-5 py-2 rounded-md font-semibold cursor-pointer" 
+          type="submit" value="Create Task" />
+
+      </form>
+    </section>
+
+    <!-- Steps to Use -->
+  
+
+    <!-- Task List -->
+    <section class="tasks flex gap-4 flex-wrap p-6 w-full max-w-3xl mt-8">
+      <h2 class="text-2xl font-semibold mb-4 w-full">Your Tasks</h2>
+
+      <% if(files.length > 0) { %> 
+        <% files.forEach(function(val) { %>
+          <div class="task min-w-72 px-4 py-5 rounded-lg bg-yellow-400 shadow-md">
+            <h3 class="text-black text-xl font-semibold tracking-tight"><%= val %></h3>
+            <a class="text-blue-900 font-medium inline-block mt-3 text-sm hover:underline" 
+              href="/file/<%= encodeURIComponent(val) %>">Read More...</a>
+
+              <a class="text-red-900 ml-20" href="/edit/<%= val %>">Edit Task Title ✏️</a>
+             
+                <form action="/delete" method="post" onsubmit="return confirmDelete(event, '<%= val %>')">
+                  <input type="hidden" name="filename" value="<%= val %>" />
+                  <button type="submit" class="text-red-900 ml-40 mt-2">
+                    Delete 🗑
+                  </button>
+                </form>
+           
+              
+          </div>
+        <% }) %> 
+      <% } else { %>
+        <h3 class="text-gray-400 w-full text-center">No Tasks Yet. Create your first task above.</h3>
+      <% } %>
+    </section>
+
+    <!-- Logic Explanation:
+if(files.length > 0)
+
+Checks if there are any files in the files array.
+If there are files, it enters the block and executes the forEach loop.
+files.forEach(function(val) {}
+
+Iterates over each file in the files array.
+For each file, it creates an <h1> element displaying the filename (val).
+else Block (No Tasks Yet)
+
+If the files array is empty (files.length == 0), it displays an <h1> with the text "No Tasks Yet" instead of the task list.
+This ensures that if there are tasks (files), they are listed as <h1> elements, and if not, the user sees "No Tasks Yet" -->
+
+  </div>
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const urlParams = new URLSearchParams(window.location.search);
+      
+      if (urlParams.has("success")) {
+        toastr.success(urlParams.get("success"));
+      }
+      if (urlParams.has("error")) {
+        toastr.error(urlParams.get("error"));
+      }
+    });
+  </script>
+ <script>
+  function confirmDelete(event, filename) {
+    if (!confirm(`Are you sure you want to delete "${filename}"?`)) {
+      event.preventDefault(); // Prevent form submission if the user cancels
+    }
+  }
+</script>
+
+</body>
+
+</html>
